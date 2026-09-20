@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delhi Metro - Planning</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="schedule.css">
+<script src="api-config.js"></script>
+</head>
+<body>
+<div class="dashboard">
+<aside class="sidebar">
+<div class="brand"><img src="logo.png" alt="Delhi Metro Logo"><div><h2>Delhi Metro</h2><span>Metro Rail Corporation</span></div></div>
+<nav class="menu">
+<a href="dashboard.html"><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
+<a href="stations.html"><i class="fa-solid fa-location-dot"></i><span>Stations</span></a>
+<a href="routes.html"><i class="fa-solid fa-route"></i><span>Routes</span></a>
+<a href="trains.html"><i class="fa-solid fa-train"></i><span>Trains</span></a>
+<a href="schedule.html"><i class="fa-regular fa-calendar-days"></i><span>Schedule</span></a>
+<a href="planning.html" class="active"><i class="fa-solid fa-list-check"></i><span>Planning</span></a>
+<a href="reports.html"><i class="fa-solid fa-file-lines"></i><span>Reports</span></a>
+</nav>
+
+<div class="logout-container">
+        <a href="#" class="logout-btn" onclick="logoutUser(event)">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>LOGOUT</span>
+        </a>
+    </div>
+<div class="sidebar-bottom"><div class="city-line"></div><p>Moving Delhi Forward</p><div class="purple-line"></div></div>
+</aside>
+
+<main class="main">
+<header class="topbar"><div></div><div class="top-right"><i class="fa-regular fa-bell notification"></i><div class="admin"><div class="admin-circle"><i class="fa-solid fa-user"></i></div><span>Admin</span><i class="fa-solid fa-chevron-down"></i></div></div></header>
+
+<section class="content">
+<div class="page-title"><h1>Train Induction Planning</h1><p>Plan and approve which trains go into service, on which line, and when.</p></div>
+
+<div class="schedule-hero"><div><h2>AI-Driven Train Induction Planning</h2><p>Smarter Planning | Better Utilization | A Greener Tomorrow.</p></div><i class="fa-solid fa-list-check hero-icon"></i></div>
+
+<div class="controls">
+<div class="control"><label>PLANNED DATE</label><input type="date" id="planDateFilter"></div>
+<div class="control"><label>METRO LINE</label><select id="planLineFilter"><option value="all">All Lines</option><option>Blue Line</option><option>Red Line</option><option>Yellow Line</option><option>Green Line</option><option>Violet Line</option></select></div>
+<div class="control"><label>STATUS</label><select id="planStatusFilter"><option value="all">All Status</option><option>PENDING</option><option>APPROVED</option><option>IN_SERVICE</option><option>STANDBY</option></select></div>
+<button class="search-btn" onclick="filterPlanning()"><i class="fa-solid fa-filter"></i>Filter</button>
+<button class="add-btn" onclick="addPlanning()"><i class="fa-solid fa-plus"></i>Add Planning</button>
+</div>
+
+<div class="stats">
+<div class="stat-card blue"><div class="stat-icon"><i class="fa-solid fa-train"></i></div><div><span>Total Plans</span><h2 id="totalPlans">0</h2></div></div>
+<div class="stat-card green"><div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div><div><span>Approved</span><h2 id="approvedCount">0</h2></div></div>
+<div class="stat-card orange"><div class="stat-icon"><i class="fa-solid fa-clock"></i></div><div><span>Pending</span><h2 id="pendingCount">0</h2></div></div>
+<div class="stat-card purple"><div class="stat-icon"><i class="fa-solid fa-calendar-check"></i></div><div><span>Standby</span><h2 id="standbyCount">0</h2></div></div>
+</div>
+
+<div class="panel">
+<div class="panel-header"><h2><i class="fa-solid fa-list"></i>Induction Plan</h2></div>
+<div class="table-wrap">
+<table>
+<thead><tr><th>TRAIN NO.</th><th>LINE</th><th>PLANNED DATE</th><th>STATUS</th><th>REMARKS</th><th>ACTION</th></tr></thead>
+<tbody id="planningTable">
+<!-- Rows are rendered dynamically from GET /api/planning -->
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="footer-note">Delhi Metro Rail Corporation • Smart Planning & Operations Dashboard</div>
+</section>
+</main>
+</div>
+
+<script>
+let planningList = [];
+
+async function loadPlanning(){
+    try {
+        planningList = await apiGet("/planning");
+    } catch(err) {
+        console.error("Could not load planning data from API.", err);
+        planningList = [];
+    }
+    renderPlanningTable();
+}
+
+function renderPlanningTable(){
+    const tbody = document.getElementById("planningTable");
+    tbody.innerHTML = "";
+
+    planningList.forEach(p => {
+        const statusClass = (p.status||"").toLowerCase().replace("_","-");
+        const row = document.createElement("tr");
+        row.dataset.line = p.line;
+        row.dataset.status = p.status;
+        row.dataset.date = p.plannedDate;
+        row.innerHTML = `
+            <td><b>${p.trainNumber}</b></td>
+            <td>${p.line}</td>
+            <td>${p.plannedDate || ""}</td>
+            <td><span class="status ${statusClass}">${p.status}</span></td>
+            <td>${p.remarks || ""}</td>
+            <td>
+                <button class="action-btn" onclick="viewPlanning(${p.id})"><i class="fa-solid fa-eye"></i></button>
+                <button class="action-btn" onclick="editPlanning(${p.id})"><i class="fa-solid fa-pen"></i></button>
+                <button class="action-btn" onclick="deletePlanning(${p.id})"><i class="fa-solid fa-trash"></i></button>
+            </td>`;
+        tbody.appendChild(row);
+    });
+
+    filterPlanning();
+}
+
+function filterPlanning(){
+    const date = document.getElementById("planDateFilter").value;
+    const line = document.getElementById("planLineFilter").value;
+    const status = document.getElementById("planStatusFilter").value;
+    const rows = document.querySelectorAll("#planningTable tr");
+
+    let total=0, approved=0, pending=0, standby=0;
+
+    rows.forEach(row=>{
+        const matchDate = !date || row.dataset.date === date;
+        const matchLine = line==="all" || row.dataset.line === line;
+        const matchStatus = status==="all" || row.dataset.status === status;
+        const show = matchDate && matchLine && matchStatus;
+        row.style.display = show ? "" : "none";
+
+        if(show){
+            total++;
+            if(row.dataset.status==="APPROVED") approved++;
+            if(row.dataset.status==="PENDING") pending++;
+            if(row.dataset.status==="STANDBY") standby++;
+        }
+    });
+
+    document.getElementById("totalPlans").textContent = total;
+    document.getElementById("approvedCount").textContent = approved;
+    document.getElementById("pendingCount").textContent = pending;
+    document.getElementById("standbyCount").textContent = standby;
+}
+
+async function addPlanning(){
+    const trainNumber = prompt("Enter Train Number:", "DMRC101");
+    if(!trainNumber) return;
+    const line = prompt("Enter Metro Line:", "Blue Line");
+    if(!line) return;
+    const plannedDate = prompt("Planned Date (YYYY-MM-DD):", new Date().toISOString().slice(0,10));
+    if(!plannedDate) return;
+    const status = prompt("Status (PENDING / APPROVED / IN_SERVICE / STANDBY):", "PENDING") || "PENDING";
+    const remarks = prompt("Remarks:", "") || "";
+
+    try {
+        await apiPost("/planning", { trainNumber, line, plannedDate, status, remarks });
+        alert("Planning entry added successfully!");
+        await loadPlanning();
+    } catch(err) {
+        console.error(err);
+        alert("Could not save the planning entry. Please check that the backend is running.");
+    }
+}
+
+function viewPlanning(id){
+    const p = planningList.find(x => x.id === id);
+    if(!p) return;
+    alert("Planning Details\n\nTrain: "+p.trainNumber+"\nLine: "+p.line+"\nPlanned Date: "+p.plannedDate+"\nStatus: "+p.status+"\nRemarks: "+(p.remarks||"-"));
+}
+
+async function editPlanning(id){
+    const p = planningList.find(x => x.id === id);
+    if(!p) return;
+    const status = prompt("Update status for "+p.trainNumber+":", p.status) || p.status;
+
+    try {
+        await apiPut("/planning/"+id, { ...p, status });
+        alert("Planning updated successfully!");
+        await loadPlanning();
+    } catch(err) {
+        console.error(err);
+        alert("Could not update the planning entry.");
+    }
+}
+
+async function deletePlanning(id){
+    if(!confirm("Delete this planning entry?")) return;
+    try {
+        await apiDelete("/planning/"+id);
+        await loadPlanning();
+    } catch(err) {
+        console.error(err);
+        alert("Could not delete the planning entry.");
+    }
+}
+
+function logoutUser(event) {
+    event.preventDefault();
+    const confirmLogout = confirm("Are you sure you want to logout?");
+    if (confirmLogout) {
+        alert("You have been successfully logged out.\n\nThank you for using Delhi Metro Control Center.");
+        localStorage.clear();
+        window.location.href = "login.html";
+    }
+}
+
+document.getElementById("planDateFilter").addEventListener("change", filterPlanning);
+document.getElementById("planLineFilter").addEventListener("change", filterPlanning);
+document.getElementById("planStatusFilter").addEventListener("change", filterPlanning);
+
+document.querySelector(".notification").addEventListener("click", function () {
+    alert("Planning Notifications\n\n• 2 trains pending approval\n• 1 train on standby for evening peak");
+});
+
+loadPlanning();
+</script>
+</body>
+</html>

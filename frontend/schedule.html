@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delhi Metro - Schedule</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="schedule.css">
+<script src="api-config.js"></script>
+</head>
+<body>
+<div class="dashboard">
+<aside class="sidebar">
+<div class="brand"><img src="logo.png" alt="Delhi Metro Logo"><div><h2>Delhi Metro</h2><span>Metro Rail Corporation</span></div></div>
+<nav class="menu">
+<a href="dashboard.html"><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
+<a href="stations.html"><i class="fa-solid fa-location-dot"></i><span>Stations</span></a>
+<a href="routes.html"><i class="fa-solid fa-route"></i><span>Routes</span></a>
+<a href="trains.html"><i class="fa-solid fa-train"></i><span>Trains</span></a>
+<a href="schedule.html" class="active"><i class="fa-regular fa-calendar-days"></i><span>Schedule</span></a>
+<a href="planning.html"><i class="fa-solid fa-list-check"></i><span>Planning</span></a>
+<a href="reports.html"><i class="fa-solid fa-file-lines"></i><span>Reports</span></a>
+</nav>
+
+<div class="logout-container">
+
+        <a href="#" class="logout-btn" onclick="logoutUser(event)">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>LOGOUT</span>
+        </a>
+
+    </div>
+<div class="sidebar-bottom"><div class="city-line"></div><p>Moving Delhi Forward</p><div class="blue-line"></div></div>
+</aside>
+
+<main class="main">
+<header class="topbar"><div></div><div class="top-right"><i class="fa-regular fa-bell notification"></i><div class="admin"><div class="admin-circle"><i class="fa-solid fa-user"></i></div><span>Admin</span><i class="fa-solid fa-chevron-down"></i></div></div></header>
+
+<section class="content">
+<div class="page-title"><h1>Train Schedule</h1><p>Manage, monitor and organize Delhi Metro train schedules.</p></div>
+
+<div class="schedule-hero"><div><h2>Delhi Metro Train Schedule</h2><p>View daily train timings, routes, platforms and service status for efficient metro operations.</p></div><i class="fa-solid fa-calendar-days hero-icon"></i></div>
+
+<div class="controls">
+<div class="control"><label>SELECT DATE</label><input type="date" id="scheduleDate"></div>
+<div class="control"><label>METRO LINE</label><select id="lineFilter"><option value="all">All Lines</option><option>Blue Line</option><option>Red Line</option><option>Yellow Line</option><option>Green Line</option><option>Violet Line</option></select></div>
+<div class="control"><label>SERVICE STATUS</label><select id="statusFilter"><option value="all">All Status</option><option>On Time</option><option>Delayed</option><option>Scheduled</option></select></div>
+<button class="search-btn" onclick="filterSchedule()"><i class="fa-solid fa-filter"></i>Filter Schedule</button>
+<button class="add-btn" onclick="addSchedule()"><i class="fa-solid fa-plus"></i>Add Schedule</button>
+</div>
+
+<div class="stats">
+<div class="stat-card blue"><div class="stat-icon"><i class="fa-solid fa-train"></i></div><div><span>Total Trips</span><h2 id="totalTrips">7</h2></div></div>
+<div class="stat-card green"><div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div><div><span>On Time</span><h2 id="onTimeCount">4</h2></div></div>
+<div class="stat-card orange"><div class="stat-icon"><i class="fa-solid fa-clock"></i></div><div><span>Delayed</span><h2 id="delayedCount">2</h2></div></div>
+<div class="stat-card purple"><div class="stat-icon"><i class="fa-solid fa-calendar-check"></i></div><div><span>Scheduled</span><h2 id="scheduledCount">1</h2></div></div>
+</div>
+
+<div class="panel">
+<div class="panel-header"><h2><i class="fa-solid fa-list"></i>Today's Train Schedule</h2><span class="date-label" id="displayDate">27 April 2025</span></div>
+<div class="table-wrap">
+<table>
+<thead><tr><th>TRAIN NO.</th><th>LINE</th><th>FROM</th><th>TO</th><th>DEPARTURE</th><th>ARRIVAL</th><th>PLATFORM</th><th>STATUS</th><th>ACTION</th></tr></thead>
+<tbody id="scheduleTable">
+<!-- Rows are now rendered dynamically from GET /api/schedules -->
+</tbody></table>
+</div>
+</div>
+
+<div class="footer-note">Delhi Metro Rail Corporation • Smart Planning & Operations Dashboard</div>
+</section>
+</main>
+</div>
+
+<script>
+let scheduleList = [];
+
+async function loadSchedules(){
+    try {
+        scheduleList = await apiGet("/schedules");
+    } catch(err) {
+        console.error("Could not load schedules from API.", err);
+        scheduleList = [];
+    }
+    renderScheduleTable();
+}
+
+function renderScheduleTable(){
+    const tbody = document.getElementById("scheduleTable");
+    tbody.innerHTML = "";
+
+    scheduleList.forEach(s => {
+        const lineClass = (s.line||"").toLowerCase().includes("blue") ? "blue-text"
+            : (s.line||"").toLowerCase().includes("red") ? "red-text"
+            : (s.line||"").toLowerCase().includes("yellow") ? "yellow-text"
+            : (s.line||"").toLowerCase().includes("green") ? "green-text"
+            : "purple-text";
+        const statusClass = (s.status||"").toLowerCase().replace(" ", "-");
+
+        const row = document.createElement("tr");
+        row.dataset.line = s.line;
+        row.dataset.status = s.status;
+        row.innerHTML = `
+            <td><b>${s.trainNumber}</b></td>
+            <td class="line-name ${lineClass}">${s.line}</td>
+            <td>${s.fromStation||""}</td>
+            <td>${s.toStation||""}</td>
+            <td>${s.departureTime||""}</td>
+            <td>${s.arrivalTime||""}</td>
+            <td>${s.platform!=null?s.platform:""}</td>
+            <td><span class="status ${statusClass}">${s.status}</span></td>
+            <td>
+                <button class="action-btn" onclick="viewSchedule(${s.id})"><i class="fa-solid fa-eye"></i></button>
+                <button class="action-btn" onclick="editSchedule(${s.id})"><i class="fa-solid fa-pen"></i></button>
+            </td>`;
+        tbody.appendChild(row);
+    });
+
+    filterSchedule();
+}
+
+function filterSchedule(){
+    const line=document.getElementById("lineFilter").value;
+    const status=document.getElementById("statusFilter").value;
+    const rows=document.querySelectorAll("#scheduleTable tr");
+    let total=0,onTime=0,delayed=0,scheduled=0;
+
+    rows.forEach(row=>{
+        const matchLine=line==="all"||row.dataset.line===line;
+        const matchStatus=status==="all"||row.dataset.status===status;
+        row.style.display=matchLine&&matchStatus?"":"none";
+        if(matchLine&&matchStatus){
+            total++;
+            if(row.dataset.status==="On Time") onTime++;
+            if(row.dataset.status==="Delayed") delayed++;
+            if(row.dataset.status==="Scheduled") scheduled++;
+        }
+    });
+
+    document.getElementById("totalTrips").textContent=total;
+    document.getElementById("onTimeCount").textContent=onTime;
+    document.getElementById("delayedCount").textContent=delayed;
+    document.getElementById("scheduledCount").textContent=scheduled;
+}
+
+async function addSchedule(){
+    const trainNumber=prompt("Enter Train Number:","DMRC108");
+    if(!trainNumber)return;
+    const line=prompt("Enter Metro Line:","Blue Line");
+    if(!line)return;
+    const fromStation=prompt("From Station:","Dwarka Sec-21")||"";
+    const toStation=prompt("To Station:","Noida City Centre")||"";
+    const departureTime=prompt("Departure Time:","11:00 AM")||"";
+    const arrivalTime=prompt("Arrival Time:","12:00 PM")||"";
+    const platform=Number(prompt("Platform:","1"))||1;
+
+    try {
+        await apiPost("/schedules", {
+            trainNumber, line, fromStation, toStation,
+            departureTime, arrivalTime, platform,
+            status: "Scheduled",
+            scheduleDate: document.getElementById("scheduleDate").value || new Date().toISOString().slice(0,10)
+        });
+        alert("Schedule added successfully!\n\nTrain: "+trainNumber+"\nLine: "+line);
+        await loadSchedules();
+    } catch(err) {
+        console.error(err);
+        alert("Could not save the schedule. Please check that the backend is running.");
+    }
+}
+
+function viewSchedule(id){
+    const s = scheduleList.find(x => x.id === id);
+    if(!s) return;
+    alert("Schedule Details\n\nTrain Number: "+s.trainNumber+"\nLine: "+s.line+"\nFrom: "+s.fromStation+"\nTo: "+s.toStation+"\nStatus: "+s.status);
+}
+
+async function editSchedule(id){
+    const s = scheduleList.find(x => x.id === id);
+    if(!s) return;
+    const time=prompt("Enter new departure time for "+s.trainNumber+":", s.departureTime||"11:00 AM");
+    if(!time) return;
+
+    try {
+        await apiPut("/schedules/"+id, { ...s, departureTime: time });
+        alert(s.trainNumber+" schedule updated successfully!\n\nNew Departure: "+time);
+        await loadSchedules();
+    } catch(err) {
+        console.error(err);
+        alert("Could not update the schedule. Please check that the backend is running.");
+    }
+}
+
+document.getElementById("scheduleDate").addEventListener("change",function(){
+    const date=new Date(this.value);
+    if(!isNaN(date)){
+        document.getElementById("displayDate").textContent=date.toLocaleDateString("en-IN",{day:"2-digit",month:"long",year:"numeric"});
+    }
+})
+
+loadSchedules();
+function logoutUser(event) {
+
+    event.preventDefault();
+
+    const confirmLogout = confirm(
+        "Are you sure you want to logout?"
+    );
+
+    if (confirmLogout) {
+
+        alert(
+            "You have been successfully logged out.\n\nThank you for using Delhi Metro Control Center."
+        );
+
+        localStorage.clear();
+
+        window.location.href = "login.html";
+    }
+}
+;
+</script>
+</body>
+</html>

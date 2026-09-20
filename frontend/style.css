@@ -1,0 +1,201 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+
+body{
+    height:100vh;
+
+    background:
+    linear-gradient(
+    rgba(0,0,0,0.45),
+    rgba(0,0,0,0.45)
+    ),
+    url("./metro-bg.png");
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+}
+
+
+.overlay{
+display:flex;
+justify-content:space-between;
+align-items:center;
+height:100vh;
+padding:50px 80px;
+}
+
+.left-section{
+width:55%;
+color:white;
+}
+
+.top-logo{
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+.top-logo img{
+width:100px;
+}
+
+.top-logo h2{
+font-size:45px;
+}
+
+.top-logo p{
+font-size:18px;
+color:#ddd;
+}
+
+.project-content{
+margin-top:120px;
+}
+
+.project-content h1{
+font-size:70px;
+font-weight:700;
+}
+
+.project-content h3{
+margin-top:25px;
+font-size:35px;
+max-width:800px;
+line-height:1.4;
+}
+
+.red-line{
+width:80px;
+height:5px;
+background:red;
+margin-top:30px;
+margin-bottom:30px;
+}
+
+.project-content p{
+font-size:22px;
+color:#ddd;
+}
+
+.bottom-icons{
+display:flex;
+gap:60px;
+margin-top:130px;
+}
+
+.bottom-icons div{
+display:flex;
+align-items:center;
+gap:10px;
+font-size:18px;
+}
+
+.bottom-icons i{
+font-size:30px;
+}
+
+.login-card{
+
+width:500px;
+
+background:rgba(10,25,50,0.70);
+
+backdrop-filter:blur(15px);
+
+padding:40px;
+
+border-radius:25px;
+
+border:1px solid rgba(255,255,255,0.2);
+
+color:white;
+
+box-shadow:0 0 30px rgba(0,0,0,0.5);
+}
+
+.card-logo{
+width:100px;
+display:block;
+margin:auto;
+margin-bottom:20px;
+}
+
+.login-card h1{
+text-align:center;
+font-size:45px;
+margin-bottom:10px;
+}
+
+.login-card p{
+text-align:center;
+margin-bottom:35px;
+color:#ddd;
+}
+
+.input-box{
+display:flex;
+align-items:center;
+border:1px solid rgba(255,255,255,0.3);
+padding:15px;
+border-radius:10px;
+margin-bottom:20px;
+}
+
+.input-box i{
+font-size:22px;
+margin-right:15px;
+}
+
+.input-box input{
+width:100%;
+background:none;
+border:none;
+outline:none;
+color:white;
+font-size:18px;
+}
+
+.input-box input::placeholder{
+color:#ccc;
+}
+
+
+.login-btn{
+width:100%;
+padding:16px;
+background:#e60023;
+border:none;
+color:white;
+font-size:22px;
+font-weight:bold;
+border-radius:10px;
+cursor:pointer;
+margin-top:10px;
+
+display:block;
+text-align:center;
+text-decoration:none;
+}
+
+.login-btn:hover{
+background:#c4001d;
+}
+
+.or-line{
+text-align:center;
+margin-top:25px;
+margin-bottom:25px;
+color:#ddd;
+}
+
+.footer{
+text-align:center;
+font-size:18px;
+color:#ddd;
+}

@@ -1,0 +1,147 @@
+{
+  "info": {
+    "name": "Metro Fleet System",
+    "description": "APIs for Delhi Metro Fleet System backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080/api" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}" },
+            "url": "{{baseUrl}}/auth/login"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Stations",
+      "item": [
+        { "name": "Get All Stations", "request": { "method": "GET", "url": "{{baseUrl}}/stations" } },
+        { "name": "Get Station By Id", "request": { "method": "GET", "url": "{{baseUrl}}/stations/1" } },
+        {
+          "name": "Create Station",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"stationCode\": \"DM-050\",\n  \"stationName\": \"New Test Station\",\n  \"line\": \"Blue Line\",\n  \"zone\": \"West Delhi\",\n  \"platforms\": 2,\n  \"status\": \"Operational\"\n}" },
+            "url": "{{baseUrl}}/stations"
+          }
+        },
+        {
+          "name": "Update Station",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"stationCode\": \"DM-001\",\n  \"stationName\": \"Dwarka Sector 21 Updated\",\n  \"line\": \"Blue Line\",\n  \"zone\": \"West Delhi\",\n  \"platforms\": 3,\n  \"status\": \"Operational\"\n}" },
+            "url": "{{baseUrl}}/stations/1"
+          }
+        },
+        { "name": "Delete Station", "request": { "method": "DELETE", "url": "{{baseUrl}}/stations/1" } }
+      ]
+    },
+    {
+      "name": "Routes",
+      "item": [
+        { "name": "Get All Routes", "request": { "method": "GET", "url": "{{baseUrl}}/routes" } },
+        { "name": "Get Route By Id", "request": { "method": "GET", "url": "{{baseUrl}}/routes/1" } },
+        { "name": "Find Route Between Stations", "request": { "method": "GET", "url": "{{baseUrl}}/routes/find?start=Dwarka Sector 21&destination=Rajouri Garden" } },
+        {
+          "name": "Create Route",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"lineKey\": \"Pink\",\n  \"lineName\": \"Pink Line\",\n  \"totalStations\": 5,\n  \"distanceKm\": 10.5,\n  \"startStation\": \"A\",\n  \"endStation\": \"E\",\n  \"status\": \"Operational\",\n  \"stationList\": [\n    { \"stationName\": \"A\", \"sequenceNo\": 1 },\n    { \"stationName\": \"B\", \"sequenceNo\": 2 }\n  ]\n}" },
+            "url": "{{baseUrl}}/routes"
+          }
+        },
+        { "name": "Delete Route", "request": { "method": "DELETE", "url": "{{baseUrl}}/routes/1" } }
+      ]
+    },
+    {
+      "name": "Trains",
+      "item": [
+        { "name": "Get All Trains", "request": { "method": "GET", "url": "{{baseUrl}}/trains" } },
+        { "name": "Get Train By Id", "request": { "method": "GET", "url": "{{baseUrl}}/trains/1" } },
+        {
+          "name": "Create Train",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"trainNumber\": \"DMRC200\",\n  \"line\": \"Blue Line\",\n  \"type\": \"6 Coach\",\n  \"capacity\": 2280,\n  \"currentStation\": \"Depot\",\n  \"status\": \"Standby\"\n}" },
+            "url": "{{baseUrl}}/trains"
+          }
+        },
+        {
+          "name": "Update Train",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"trainNumber\": \"DMRC101\",\n  \"line\": \"Blue Line\",\n  \"type\": \"6 Coach\",\n  \"capacity\": 2280,\n  \"currentStation\": \"Rajiv Chowk\",\n  \"status\": \"Running\"\n}" },
+            "url": "{{baseUrl}}/trains/1"
+          }
+        },
+        { "name": "Delete Train", "request": { "method": "DELETE", "url": "{{baseUrl}}/trains/1" } }
+      ]
+    },
+    {
+      "name": "Schedules",
+      "item": [
+        { "name": "Get All Schedules", "request": { "method": "GET", "url": "{{baseUrl}}/schedules" } },
+        { "name": "Get Schedule By Id", "request": { "method": "GET", "url": "{{baseUrl}}/schedules/1" } },
+        {
+          "name": "Create Schedule",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"trainNumber\": \"DMRC101\",\n  \"line\": \"Blue Line\",\n  \"fromStation\": \"Dwarka Sec-21\",\n  \"toStation\": \"Noida City Centre\",\n  \"departureTime\": \"08:00 AM\",\n  \"arrivalTime\": \"09:12 AM\",\n  \"platform\": 2,\n  \"status\": \"On Time\",\n  \"scheduleDate\": \"2026-09-28\"\n}" },
+            "url": "{{baseUrl}}/schedules"
+          }
+        },
+        { "name": "Delete Schedule", "request": { "method": "DELETE", "url": "{{baseUrl}}/schedules/1" } }
+      ]
+    },
+    {
+      "name": "Planning",
+      "item": [
+        { "name": "Get All Planning", "request": { "method": "GET", "url": "{{baseUrl}}/planning" } },
+        { "name": "Get Planning By Id", "request": { "method": "GET", "url": "{{baseUrl}}/planning/1" } },
+        {
+          "name": "Create Planning",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"trainNumber\": \"DMRC101\",\n  \"line\": \"Blue Line\",\n  \"plannedDate\": \"2026-09-29\",\n  \"status\": \"PENDING\",\n  \"remarks\": \"Test planning entry\"\n}" },
+            "url": "{{baseUrl}}/planning"
+          }
+        },
+        { "name": "Delete Planning", "request": { "method": "DELETE", "url": "{{baseUrl}}/planning/1" } }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        { "name": "Get All Reports", "request": { "method": "GET", "url": "{{baseUrl}}/reports" } },
+        { "name": "Get Report By Id", "request": { "method": "GET", "url": "{{baseUrl}}/reports/1" } },
+        {
+          "name": "Create Report",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"reportType\": \"Daily Operations\",\n  \"reportDate\": \"2026-09-28\",\n  \"content\": \"Sample generated report content\"\n}" },
+            "url": "{{baseUrl}}/reports"
+          }
+        },
+        { "name": "Delete Report", "request": { "method": "DELETE", "url": "{{baseUrl}}/reports/1" } }
+      ]
+    }
+  ]
+}

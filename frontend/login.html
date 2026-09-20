@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delhi Metro Login</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<script src="api-config.js"></script>
+</head>
+
+<body>
+
+<div class="overlay">
+
+    <!-- LEFT CONTENT -->
+
+    <div class="left-section">
+
+        <div class="top-logo">
+
+            <img src="logo.png" alt="DMRC Logo">
+
+            <div>
+                <h2>Delhi Metro</h2>
+                <p>Metro Rail Corporation</p>
+            </div>
+
+        </div>
+
+        <div class="project-content">
+
+            <h1>Metro Rail System</h1>
+
+            <h3>
+                AI-Driven Train Induction Planning &
+                Scheduling for Metro Rail Systems
+            </h3>
+
+            <div class="red-line"></div>
+
+            <p>
+                Smarter Planning |
+                Better Utilization |
+                A Greener Tomorrow
+            </p>
+
+        </div>
+
+        <div class="bottom-icons">
+
+            <div>
+                <i class="fa-solid fa-train"></i>
+                <span>Efficient Operations</span>
+            </div>
+
+            <div>
+                <i class="fa-solid fa-leaf"></i>
+                <span>Sustainable Mobility</span>
+            </div>
+
+            <div>
+                <i class="fa-solid fa-users"></i>
+                <span>Better Connectivity</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- LOGIN CARD -->
+
+    <div class="login-card">
+
+        <img src="logo.png" class="card-logo">
+
+        <h1>Metro Rail Login</h1>
+
+        <p>Welcome Back! Please login to continue</p>
+
+        <div class="input-box">
+            <i class="fa-regular fa-user"></i>
+            <input type="text" id="username" placeholder="Enter Username">
+        </div>
+
+        <div class="input-box">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="password" placeholder="Enter Password">
+        </div>
+
+
+        <button class="login-btn" onclick="handleLogin(event)">
+            Login →
+        </button>
+        <div class="or-line">
+            <span>Or</span>
+        </div>
+
+        <div class="footer">
+            Delhi Metro Rail Corporation
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+async function handleLogin(event) {
+    event.preventDefault();
+
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+
+    if (!username || !password) {
+        alert("Please enter both username and password.");
+        return;
+    }
+
+    try {
+        const res = await fetch(`${API_BASE_URL}/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+            localStorage.setItem("metroUser", username);
+            window.location.href = "dashboard.html";
+        } else {
+            alert(data.message || "Invalid username or password.");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Could not reach the backend server. Please make sure it is running on http://localhost:8080");
+    }
+}
+</script>
+</body>
+</html>

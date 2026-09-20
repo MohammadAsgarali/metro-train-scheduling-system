@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Delhi Metro - Trains</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="trains.css">
+<script src="api-config.js"></script>
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            <i class="fa-solid fa-train-subway"></i>
+        </div>
+
+        <div>
+            <h2>Delhi Metro</h2>
+            <span>Rail Corporation</span>
+        </div>
+
+    </div>
+
+
+    <nav class="menu">
+
+        <a href="dashboard.html">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="stations.html">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>Stations</span>
+        </a>
+
+        <a href="routes.html">
+            <i class="fa-solid fa-route"></i>
+            <span>Routes</span>
+        </a>
+
+        <a href="trains.html" class="active">
+            <i class="fa-solid fa-train"></i>
+            <span>Trains</span>
+        </a>
+
+        <a href="schedule.html">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span>Schedule</span>
+        </a>
+
+        <a href="planning.html">
+            <i class="fa-solid fa-list-check"></i>
+            <span>Planning</span>
+        </a>
+
+        <a href="reports.html">
+            <i class="fa-solid fa-file-lines"></i>
+            <span>Reports</span>
+        </a>
+
+    </nav>
+    
+<div class="logout-container">
+
+        <a href="#" class="logout-btn" onclick="logoutUser(event)" >
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>LOGOUT</span>
+        </a>
+
+    </div>
+
+
+    <div class="sidebar-bottom">
+
+        <i class="fa-solid fa-circle-check"></i>
+
+        <div>
+            <strong>System Online</strong>
+            <small>All systems operational</small>
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+        <div>
+            <h1>Metro Trains</h1>
+            <p>Monitor train fleet, routes, health and operational status.</p>
+        </div>
+
+
+        <div class="top-actions">
+
+            <button class="notification">
+
+                <i class="fa-regular fa-bell"></i>
+
+                <span>3</span>
+
+            </button>
+
+
+            <div class="admin">
+
+                <div class="admin-avatar">
+                    A
+                </div>
+
+                <div>
+                    <strong>Admin</strong>
+                    <small>Administrator</small>
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <div>
+
+            <span class="hero-label">
+
+                <i class="fa-solid fa-train"></i>
+
+                TRAIN FLEET MANAGEMENT
+
+            </span>
+
+
+            <h2>Delhi Metro Train Fleet</h2>
+
+
+            <p>
+                Monitor train availability, current status,
+                assigned routes and maintenance information.
+            </p>
+
+        </div>
+
+
+        <div class="hero-icon">
+
+            <i class="fa-solid fa-train-subway"></i>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= SEARCH ================= -->
+
+    <section class="search-card">
+
+        <div class="search-box">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                id="trainSearch"
+                placeholder="Search train ID..."
+            >
+
+        </div>
+
+
+        <select id="trainLine">
+
+            <option value="all">All Lines</option>
+            <option value="Blue">Blue Line</option>
+            <option value="Red">Red Line</option>
+            <option value="Yellow">Yellow Line</option>
+            <option value="Green">Green Line</option>
+            <option value="Violet">Violet Line</option>
+
+        </select>
+
+
+        <select id="trainStatus">
+
+            <option value="all">All Status</option>
+            <option value="Running">Running</option>
+            <option value="Standby">Standby</option>
+            <option value="Maintenance">Maintenance</option>
+            <option value="Inactive">Inactive</option>
+
+        </select>
+
+
+        <button class="search-btn" onclick="searchTrains()">
+
+            <i class="fa-solid fa-filter"></i>
+
+            Search
+
+        </button>
+
+    </section>
+
+
+    <!-- ================= STATS ================= -->
+
+    <section class="stats">
+
+        <div class="stat-card">
+
+            <div class="stat-icon blue">
+
+                <i class="fa-solid fa-train"></i>
+
+            </div>
+
+            <div>
+
+                <span>Total Trains</span>
+
+                <h3 id="totalTrains">12</h3>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon green">
+
+                <i class="fa-solid fa-train-subway"></i>
+
+            </div>
+
+            <div>
+
+                <span>Running</span>
+
+                <h3>8</h3>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon orange">
+
+                <i class="fa-solid fa-clock"></i>
+
+            </div>
+
+            <div>
+
+                <span>Standby</span>
+
+                <h3>2</h3>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon red">
+
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+
+            </div>
+
+            <div>
+
+                <span>Maintenance</span>
+
+                <h3>2</h3>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= TRAIN TABLE ================= -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+
+            <div>
+
+                <h2>Train Fleet</h2>
+
+                <p>Current train fleet and operational status</p>
+
+            </div>
+
+
+            <button class="add-btn" onclick="addTrain()">
+
+                <i class="fa-solid fa-plus"></i>
+
+                Add Train
+
+            </button>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>TRAIN ID</th>
+
+                        <th>LINE</th>
+
+                        <th>TYPE</th>
+
+                        <th>CAPACITY</th>
+
+                        <th>CURRENT STATION</th>
+
+                        <th>STATUS</th>
+
+                        <th>ACTION</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="trainTable">
+
+
+                    <!-- TRAIN 1 -->
+
+                    <tr
+                        data-line="Blue"
+                        data-status="Running"
+                        data-name="DMRC101"
+                    >
+
+                        <td>
+                            <strong>DMRC101</strong>
+                        </td>
+
+                        <td>
+                            <span class="line blue-line">
+                                Blue
+                            </span>
+                        </td>
+
+                        <td>6 Coach</td>
+
+                        <td>2,280</td>
+
+                        <td>Dwarka Sector 21</td>
+
+                        <td>
+                            <span class="status running">
+                                Running
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="view-btn"
+                                onclick="viewTrain('DMRC101')"
+                            >
+                                View
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- TRAIN 2 -->
+
+                    <tr
+                        data-line="Blue"
+                        data-status="Running"
+                        data-name="DMRC102"
+                    >
+
+                        <td>
+                            <strong>DMRC102</strong>
+                        </td>
+
+                        <td>
+                            <span class="line blue-line">
+                                Blue
+                            </span>
+                        </td>
+
+                        <td>6 Coach</td>
+
+                        <td>2,280</td>
+
+                        <td>Rajouri Garden</td>
+
+                        <td>
+                            <span class="status running">
+                                Running
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="view-btn"
+                                onclick="viewTrain('DMRC102')"
+                            >
+                                View
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- TRAIN 3 -->
+
+                    <tr
+                        data-line="Red"
+                        data-status="Running"
+                        data-name="DMRC103"
+                    >
+
+                        <td>
+                            <strong>DMRC103</strong>
+                        </td>
+
+                        <td>
+                            <span class="line red-line">
+                                Red
+                            </span>
+                        </td>
+
+                        <td>6 Coach</td>
+
+                        <td>2,280</td>
+
+                        <td>Rithala</td>
+
+                        <td>
+                            <span class="status running">
+                                Running
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="view-btn"
+                                onclick="viewTrain('DMRC103')"
+                            >
+                                View
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- TRAIN 4 -->
+
+                    <tr
+                        data-line="Yellow"
+                        data-status="Running"
+                        data-name="DMRC104"
+                    >
+
+                        <td>
+                            <strong>DMRC104</strong>
+                        </td>
+
+                        <td>
+                            <span class="line yellow-line">
+                                Yellow
+                            </span>
+                        </td>
+
+                        <td>6 Coach</td>
+
+                        <td>2,280</td>
+
+                        <td>Chandni Chowk</td>
+
+                        <td>
+                            <span class="status running">
+                                Running
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="view-btn"
+                                onclick="viewTrain('DMRC104')"
+                            >
+                                View
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- TRAIN 5 -->
+
+                    <tr
+                        data-line="Yellow"
+                        data-status="Maintenance"
+                        data-name="DMRC105"
+                    >
+
+                        <td>
+                            <strong>DMRC105</strong>
+                        </td>
+
+                        <td>
+                            <span class="line yellow-line">
+                                Yellow
+                            </span>
+                        </td>
+
+                        <td>6 Coach</td>
+
+                        <td>2,280</td>
+
+                        <td>Depot</td>
+
+                        <td>
+                            <span class="status maintenance">
+                                Maintenance
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="view-btn"
+                                onclick="viewTrain('DMRC105')"
+                            >
+                                View
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- TRAIN 6 -->
+
+                    <tr
+                        data-line="Green"
+                        data-status="Standby"
+                        data-name="DMRC106"
+                    >
+
+                        <td>
+                            <strong>DMRC106</strong>
+                        </td>
+
+                        <td>
+                            <span class="line green-line">
+                                Green
+                            </span>
+                        </td>
+
+                        <td>4 Coach</td>
+
+                        <td>1,520</td>
+
+                        <td>Inderlok Depot</td>
+
+                        <td>
+                            <span class="status standby">
+                                Standby
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="view-btn"
+                                onclick="viewTrain('DMRC106')"
+                            >
+                                View
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- TRAIN 7 -->
+
+                    <tr
+                        data-line="Violet"
+                        data-status="Running"
+                        data-name="DMRC107"
+                    >
+
+                        <td>
+                            <strong>DMRC107</strong>
+                        </td>
+
+                        <td>
+                            <span class="line violet-line">
+                                Violet
+                            </span>
+                        </td>
+
+                        <td>6 Coach</td>
+
+                        <td>2,280</td>
+
+                        <td>Kashmere Gate</td>
+
+                        <td>
+                            <span class="status running">
+                                Running
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="view-btn"
+                                onclick="viewTrain('DMRC107')"
+                            >
+                                View
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- TRAIN 8 -->
+
+                    <tr
+                        data-line="Blue"
+                        data-status="Standby"
+                        data-name="DMRC108"
+                    >
+
+                        <td>
+                            <strong>DMRC108</strong>
+                        </td>
+
+                        <td>
+                            <span class="line blue-line">
+                                Blue
+                            </span>
+                        </td>
+
+                        <td>6 Coach</td>
+
+                        <td>2,280</td>
+
+                        <td>Yamuna Bank Depot</td>
+
+                        <td>
+                            <span class="status standby">
+                                Standby
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="view-btn"
+                                onclick="viewTrain('DMRC108')"
+                            >
+                                View
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- TRAIN 9 -->
+
+                    <tr
+                        data-line="Red"
+                        data-status="Maintenance"
+                        data-name="DMRC109"
+                    >
+
+                        <td>
+                            <strong>DMRC109</strong>
+                        </td>
+
+                        <td>
+                            <span class="line red-line">
+                                Red
+                            </span>
+                        </td>
+
+                        <td>6 Coach</td>
+
+                        <td>2,280</td>
+
+                        <td>Shastri Park Depot</td>
+
+                        <td>
+                            <span class="status maintenance">
+                                Maintenance
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="view-btn"
+                                onclick="viewTrain('DMRC109')"
+                            >
+                                View
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- TRAIN 10 -->
+
+                    <tr
+                        data-line="Green"
+                        data-status="Running"
+                        data-name="DMRC110"
+                    >
+
+                        <td>
+                            <strong>DMRC110</strong>
+                        </td>
+
+                        <td>
+                            <span class="line green-line">
+                                Green
+                            </span>
+                        </td>
+
+                        <td>4 Coach</td>
+
+                        <td>1,520</td>
+
+                        <td>Inderlok</td>
+
+                        <td>
+                            <span class="status running">
+                                Running
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="view-btn"
+                                onclick="viewTrain('DMRC110')"
+                            >
+                                View
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- TRAIN 11 -->
+
+                    <tr
+                        data-line="Yellow"
+                        data-status="Running"
+                        data-name="DMRC111"
+                    >
+
+                        <td>
+                            <strong>DMRC111</strong>
+                        </td>
+
+                        <td>
+                            <span class="line yellow-line">
+                                Yellow
+                            </span>
+                        </td>
+
+                        <td>6 Coach</td>
+
+                        <td>2,280</td>
+
+                        <td>Hauz Khas</td>
+
+                        <td>
+                            <span class="status running">
+                                Running
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="view-btn"
+                                onclick="viewTrain('DMRC111')"
+                            >
+                                View
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- TRAIN 12 -->
+
+                    <tr
+                        data-line="Violet"
+                        data-status="Inactive"
+                        data-name="DMRC112"
+                    >
+
+                        <td>
+                            <strong>DMRC112</strong>
+                        </td>
+
+                        <td>
+                            <span class="line violet-line">
+                                Violet
+                            </span>
+                        </td>
+
+                        <td>6 Coach</td>
+
+                        <td>2,280</td>
+
+                        <td>Depot</td>
+
+                        <td>
+                            <span class="status inactive">
+                                Inactive
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="view-btn"
+                                onclick="viewTrain('DMRC112')"
+                            >
+                                View
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            Delhi Metro Rail Corporation • Train Fleet Management System
+        </p>
+
+        <span>
+            © 2026 DMRC Dashboard
+        </span>
+
+    </footer>
+
+</main>
+
+
+<script src="trains.js"></script>
+
+</body>
+</html>

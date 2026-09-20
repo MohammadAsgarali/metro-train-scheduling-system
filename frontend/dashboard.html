@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Delhi Metro Dashboard</title>
+
+    <link rel="stylesheet" href="abc.css">
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="api-config.js"></script>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <img src="logo.png" alt="Delhi Metro Logo">
+
+            <div>
+                <h2>Delhi Metro</h2>
+                <span>Metro Rail Corporation</span>
+            </div>
+
+        </div>
+
+    <aside>
+     <nav class="menu">
+
+    <a href="dashboard.html" class="active">
+        <i class="fa-solid fa-house"></i>
+        <span>Dashboard</span>
+    </a>
+
+    <a href="stations.html">
+        <i class="fa-solid fa-location-dot"></i>
+        <span>Stations</span>
+    </a>
+
+    <a href="routes.html">
+        <i class="fa-solid fa-route"></i>
+        <span>Routes</span>
+    </a>
+
+    <a href="trains.html">
+        <i class="fa-solid fa-train"></i>
+        <span>Trains</span>
+    </a>
+
+    <a href="schedule.html">
+        <i class="fa-regular fa-calendar-days"></i>
+        <span>Schedule</span>
+    </a>
+
+    <a href="planning.html">
+        <i class="fa-solid fa-list-check"></i>
+        <span>Planning</span>
+    </a>
+
+    <a href="reports.html">
+        <i class="fa-solid fa-file-lines"></i>
+        <span>Reports</span>
+    </a>
+</nav>  
+<div class="logout-container">
+
+    <a href="#" class="logout-btn" onclick="logoutUser(event)">
+
+        <i class="fa-solid fa-right-from-bracket"></i>
+
+        <span>LOGOUT</span>
+
+    </a>
+
+</div>
+</aside>
+        <div class="sidebar-bottom">
+
+            <div class="city-line"></div>
+
+            <p>Moving Delhi Forward</p>
+
+            <div class="red-line"></div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN AREA ================= -->
+
+    <main class="main">
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div></div>
+
+            <div class="top-right">
+
+                <i class="fa-regular fa-bell notification"></i>
+
+                <div class="admin">
+
+                    <div class="admin-circle">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <span>Admin</span>
+
+                    <i class="fa-solid fa-chevron-down"></i>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= CONTENT ================= -->
+
+        <section class="content">
+
+
+            <!-- WELCOME -->
+
+            <div class="welcome">
+
+                <div class="welcome-text">
+
+                    <h1>Welcome Back, Admin!</h1>
+
+                    <h3>Delhi Metro Rail System – Dashboard</h3>
+
+                    <p>
+                        "Smarter Planning&nbsp;&nbsp; | &nbsp;&nbsp;
+                        Better Utilization&nbsp;&nbsp; | &nbsp;&nbsp;
+                        A Greener Tomorrow"
+                    </p>
+
+                </div>
+
+                <div class="metro-image"></div>
+
+            </div>
+
+
+            <!-- ================= STATISTICS ================= -->
+
+            <div class="stats">
+
+
+                <!-- STATIONS -->
+
+                <div class="stat-card blue">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-train-subway"></i>
+                    </div>
+
+                    <div class="stat-info">
+
+                        <span>Total Stations</span>
+                        <a href="stations.html">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <h2>25</h2>
+
+                        <a href="stations.html">
+                            View Stations
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TRAINS -->
+
+                <div class="stat-card red">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-train"></i>
+                    </div>
+
+                    <div class="stat-info">
+
+                        <span>Total Trains</span>
+
+                        <h2>12</h2>
+
+                        <a href="trains.html">
+                            View Trains
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ROUTES -->
+
+                <div class="stat-card green">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-code-branch"></i>
+                    </div>
+
+                    <div class="stat-info">
+
+                        <span>Total Routes</span>
+
+                        <h2>5</h2>
+
+                        <a href="routes.html">
+                            View Routes
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SCHEDULE -->
+
+                <div class="stat-card purple">
+
+                    <div class="stat-icon">
+                        <i class="fa-regular fa-calendar-days"></i>
+                    </div>
+
+                    <div class="stat-info">
+
+                        <span>Total Schedules</span>
+
+                        <h2>48</h2>
+
+                        <a href="schedule.html">
+                            View Schedules
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= LOWER SECTION ================= -->
+
+            <div class="dashboard-grid">
+
+
+                <!-- PASSENGER ANALYTICS -->
+
+                <div class="panel analytics">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <i class="fa-solid fa-users"></i>
+                            <h2>Passenger Analytics</h2>
+                        </div>
+
+                        <select>
+                            <option>Last 7 Days</option>
+                            <option>Last 30 Days</option>
+                            <option>Last 3 Months</option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="legend">
+
+                        <span>
+                            <b class="dot blue-dot"></b>
+                            Total Passengers
+                        </span>
+
+                        <span>
+                            <b class="dot red-dot"></b>
+                            Metro Entry
+                        </span>
+
+                        <span>
+                            <b class="dot green-dot"></b>
+                            Metro Exit
+                        </span>
+
+                    </div>
+
+
+                    <!-- GRAPH -->
+
+                    <div class="chart">
+
+                        <div class="y-axis">
+                            <span>200K</span>
+                            <span>150K</span>
+                            <span>100K</span>
+                            <span>50K</span>
+                            <span>0</span>
+                        </div>
+
+                        <div class="graph-area">
+
+                            <div class="grid-line line1"></div>
+                            <div class="grid-line line2"></div>
+                            <div class="grid-line line3"></div>
+                            <div class="grid-line line4"></div>
+                            <div class="grid-line line5"></div>
+
+                            <svg viewBox="0 0 700 260"
+                                 preserveAspectRatio="none">
+
+                                <!-- Total Passengers -->
+
+                                <polyline
+                                    points="0,190 110,180 220,140 330,130 440,70 550,80 680,105"
+                                    fill="none"
+                                    stroke="#1769d1"
+                                    stroke-width="4"
+                                />
+
+                                <!-- Metro Entry -->
+
+                                <polyline
+                                    points="0,215 110,205 220,175 330,165 440,130 550,135 680,160"
+                                    fill="none"
+                                    stroke="#e52d46"
+                                    stroke-width="4"
+                                />
+
+                                <!-- Metro Exit -->
+
+                                <polyline
+                                    points="0,245 110,235 220,205 330,195 440,155 550,160 680,175"
+                                    fill="none"
+                                    stroke="#18a365"
+                                    stroke-width="4"
+                                />
+
+                            </svg>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="days">
+
+                        <span>Mon<br><small>Apr 21</small></span>
+                        <span>Tue<br><small>Apr 22</small></span>
+                        <span>Wed<br><small>Apr 23</small></span>
+                        <span>Thu<br><small>Apr 24</small></span>
+                        <span>Fri<br><small>Apr 25</small></span>
+                        <span>Sat<br><small>Apr 26</small></span>
+                        <span>Sun<br><small>Apr 27</small></span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= NETWORK ================= -->
+
+                <div class="panel network">
+
+                    <div class="panel-title">
+
+                        <i class="fa-solid fa-diagram-project"></i>
+
+                        <h2>Network Overview</h2>
+
+                    </div>
+
+
+                    <div class="line-list">
+
+                        <div>
+                            <span class="line-color blue-bg"></span>
+                            <b>Blue Line</b>
+                            <small>13 Stations | 22.8 km</small>
+                        </div>
+
+                        <div>
+                            <span class="line-color red-bg"></span>
+                            <b>Red Line</b>
+                            <small>8 Stations | 21.6 km</small>
+                        </div>
+
+                        <div>
+                            <span class="line-color yellow-bg"></span>
+                            <b>Yellow Line</b>
+                            <small>8 Stations | 21.2 km</small>
+                        </div>
+
+                        <div>
+                            <span class="line-color green-bg"></span>
+                            <b>Green Line</b>
+                            <small>6 Stations | 16.5 km</small>
+                        </div>
+
+                        <div>
+                            <span class="line-color purple-bg"></span>
+                            <b>Violet Line</b>
+                            <small>5 Stations | 13.4 km</small>
+                        </div>
+
+                    </div>
+
+
+                    <div class="mini-map">
+
+                        <div class="map-line map-blue"></div>
+                        <div class="map-line map-red"></div>
+                        <div class="map-line map-green"></div>
+                        <div class="map-line map-yellow"></div>
+
+                    </div>
+
+
+                    <div class="network-footer">
+
+                        <i class="fa-solid fa-train-subway"></i>
+
+                        Delhi Metro Network
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= RECENT SCHEDULE ================= -->
+
+                <div class="panel schedules">
+
+                    <div class="schedule-header">
+
+                        <div>
+                            <i class="fa-regular fa-calendar-days"></i>
+                            <h2>Recent Schedules</h2>
+                        </div>
+
+                        <a href="#">
+                            View All
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Train No.</th>
+                                <th>Route</th>
+                                <th>Departure</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr>
+                                <td>DMRC101</td>
+                                <td class="blue-text">Blue Line</td>
+                                <td>08:00 AM</td>
+                                <td>
+                                    <span class="status">On Time</span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>DMRC102</td>
+                                <td class="red-text">Red Line</td>
+                                <td>09:00 AM</td>
+                                <td>
+                                    <span class="status">On Time</span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>DMRC103</td>
+                                <td class="yellow-text">Yellow Line</td>
+                                <td>09:30 AM</td>
+                                <td>
+                                    <span class="status">On Time</span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>DMRC104</td>
+                                <td class="green-text">Green Line</td>
+                                <td>10:00 AM</td>
+                                <td>
+                                    <span class="status">On Time</span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>DMRC105</td>
+                                <td class="purple-text">Violet Line</td>
+                                <td>10:30 AM</td>
+                                <td>
+                                    <span class="status">On Time</span>
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+
+                    <!-- SYSTEM UPDATE -->
+
+                    <div class="system-update">
+
+                        <div class="update-icon">
+                            <i class="fa-solid fa-bullhorn"></i>
+                        </div>
+
+                        <div>
+
+                            <div class="update-title">
+                                <b>System Update</b>
+                                <small>27 Apr 2025</small>
+                            </div>
+
+                            <p>
+                                All metro services are running smoothly.
+                                <br>
+                                For latest updates, follow @OfficialDMRC.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+<script>
+ function logoutUser(event) {
+
+    event.preventDefault();
+
+    const confirmLogout = confirm(
+        "Are you sure you want to logout?"
+    );
+
+    if (confirmLogout) {
+
+        alert(
+            "You have been successfully logged out.\n\nThank you for using Delhi Metro Control Center."
+        );
+
+        localStorage.clear();
+
+        window.location.href = "login.html";
+    }
+}
+</script>
+</body>
+</html>

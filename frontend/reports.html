@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delhi Metro - Reports</title>
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="report.css">
+<script src="api-config.js"></script>
+</head>
+
+<body>
+<div class="dashboard">
+
+<aside class="sidebar">
+    <div class="brand">
+        <img src="logo.png" alt="Delhi Metro Logo">
+        <div>
+            <h2>Delhi Metro</h2>
+            <span>Metro Rail Corporation</span>
+        </div>
+    </div>
+
+    <nav class="menu">
+        <a href="dashboard.html"><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
+        <a href="stations.html"><i class="fa-solid fa-location-dot"></i><span>Stations</span></a>
+        <a href="routes.html"><i class="fa-solid fa-route"></i><span>Routes</span></a>
+        <a href="trains.html"><i class="fa-solid fa-train"></i><span>Trains</span></a>
+        <a href="schedule.html"><i class="fa-regular fa-calendar-days"></i><span>Schedule</span></a>
+        <a href="planning.html"><i class="fa-solid fa-list-check"></i><span>Planning</span></a>
+        <a href="reports.html" class="active"><i class="fa-solid fa-file-lines"></i><span>Reports</span></a>
+    </nav>
+
+<div class="logout-container">
+
+        <a href="#" class="logout-btn" onclick="logoutUser(event)">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>LOGOUT</span>
+        </a>
+
+    </div>
+    <div class="sidebar-bottom">
+        <div class="city-line"></div>
+        <p>Moving Delhi Forward</p>
+        <div class="red-line"></div>
+    </div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+    <div></div>
+    <div class="top-right">
+        <i class="fa-regular fa-bell notification"></i>
+        <div class="admin">
+            <div class="admin-circle"><i class="fa-solid fa-user"></i></div>
+            <span>Admin</span>
+            <i class="fa-solid fa-chevron-down"></i>
+        </div>
+    </div>
+</header>
+
+<section class="content">
+    <div class="report-hero">
+        <div>
+            <h2>Delhi Metro Operations Report</h2>
+            <p>Generate and review operational reports for smarter planning, better utilization and a greener tomorrow.</p>
+        </div>
+        <i class="fa-solid fa-chart-line hero-icon"></i>
+    </div>
+
+    <div class="filters">
+        <div class="filter">
+            <label>REPORT TYPE</label>
+            <select id="reportType">
+                <option>Daily Operations</option>
+                <option>Passenger Analytics</option>
+                <option>Train Performance</option>
+                <option>Station Performance</option>
+            </select>
+        </div>
+        <div class="filter">
+            <label>FROM DATE</label>
+            <input type="date" id="fromDate">
+        </div>
+        <div class="filter">
+            <label>TO DATE</label>
+            <input type="date" id="toDate">
+        </div>
+        <button class="generate-btn" onclick="generateReport()">
+            <i class="fa-solid fa-file-circle-plus"></i> Generate Report
+        </button>
+    </div>
+
+    <div class="stats">
+        <div class="stat-card blue">
+            <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+            <div><span>Total Passengers</span><h2>1.42M</h2></div>
+        </div>
+        <div class="stat-card red">
+            <div class="stat-icon"><i class="fa-solid fa-train"></i></div>
+            <div><span>Train Trips</span><h2>2,486</h2></div>
+        </div>
+        <div class="stat-card green">
+            <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
+            <div><span>On-Time Rate</span><h2>96.8%</h2></div>
+        </div>
+        <div class="stat-card purple">
+            <div class="stat-icon"><i class="fa-solid fa-chart-pie"></i></div>
+            <div><span>Reports Generated</span><h2 id="reportCount">48</h2></div>
+        </div>
+    </div>
+
+    <div class="report-grid">
+
+        <div class="panel">
+            <div class="panel-header">
+                <h2><i class="fa-solid fa-chart-column"></i> Passenger Activity</h2>
+                <span style="font-size:12px;color:#89919d">Last 7 Days</span>
+            </div>
+
+            <div class="chart">
+                <div class="chart-col"><div class="bars"><div class="bar-wrap"><div class="bar blue" style="height:68%"></div></div><div class="bar-wrap"><div class="bar red" style="height:55%"></div></div></div><div class="day">Mon</div></div>
+                <div class="chart-col"><div class="bars"><div class="bar-wrap"><div class="bar blue" style="height:76%"></div></div><div class="bar-wrap"><div class="bar red" style="height:61%"></div></div></div><div class="day">Tue</div></div>
+                <div class="chart-col"><div class="bars"><div class="bar-wrap"><div class="bar blue" style="height:61%"></div></div><div class="bar-wrap"><div class="bar red" style="height:49%"></div></div></div><div class="day">Wed</div></div>
+                <div class="chart-col"><div class="bars"><div class="bar-wrap"><div class="bar blue" style="height:84%"></div></div><div class="bar-wrap"><div class="bar red" style="height:70%"></div></div></div><div class="day">Thu</div></div>
+                <div class="chart-col"><div class="bars"><div class="bar-wrap"><div class="bar blue" style="height:92%"></div></div><div class="bar-wrap"><div class="bar red" style="height:77%"></div></div></div><div class="day">Fri</div></div>
+                <div class="chart-col"><div class="bars"><div class="bar-wrap"><div class="bar blue" style="height:57%"></div></div><div class="bar-wrap"><div class="bar red" style="height:45%"></div></div></div><div class="day">Sat</div></div>
+                <div class="chart-col"><div class="bars"><div class="bar-wrap"><div class="bar blue" style="height:49%"></div></div><div class="bar-wrap"><div class="bar red" style="height:40%"></div></div></div><div class="day">Sun</div></div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <h2><i class="fa-solid fa-folder-open"></i> Recent Reports</h2>
+            </div>
+            <div class="report-list" id="reportList">
+                <!-- Rows are rendered dynamically from GET /api/reports -->
+            </div>
+        </div>
+
+        <div class="panel table-panel">
+            <div class="panel-header">
+                <h2><i class="fa-solid fa-list-check"></i> Operational Summary</h2>
+                <span style="font-size:12px;color:#89919d">27 April 2025</span>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>LINE</th>
+                            <th>TRAINS</th>
+                            <th>PASSENGERS</th>
+                            <th>ON-TIME</th>
+                            <th>INCIDENTS</th>
+                            <th>STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b style="color:#1769d1">Blue Line</b></td>
+                            <td>42</td><td>420K</td><td>97.4%</td><td>2</td>
+                            <td><span class="status success">Operational</span></td>
+                        </tr>
+                        <tr>
+                            <td><b style="color:#1769d1">Red Line</b></td>
+                            <td>28</td><td>286K</td><td>96.2%</td><td>1</td>
+                            <td><span class="status success">Operational</span></td>
+                        </tr>
+                        <tr>
+                            <td><b style="color:#d6a500">Yellow Line</b></td>
+                            <td>35</td><td>355K</td><td>95.8%</td><td>3</td>
+                            <td><span class="status warning">Attention</span></td>
+                        </tr>
+                        <tr>
+                            <td><b style="color:#168957">Green Line</b></td>
+                            <td>19</td><td>181K</td><td>97.9%</td><td>0</td>
+                            <td><span class="status success">Operational</span></td>
+                        </tr>
+                        <tr>
+                            <td><b style="color:#7956c9">Violet Line</b></td>
+                            <td>22</td><td>198K</td><td>96.7%</td><td>1</td>
+                            <td><span class="status info">Normal</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-note">Delhi Metro Rail Corporation • Smart Planning & Operations Dashboard</div>
+</section>
+</main>
+</div>
+
+<script>
+let reportsList = [];
+
+async function loadReports(){
+    try {
+        reportsList = await apiGet("/reports");
+    } catch(err) {
+        console.error("Could not load reports from API.", err);
+        reportsList = [];
+    }
+    renderReportList();
+    document.getElementById("reportCount").textContent = reportsList.length;
+}
+
+function renderReportList(){
+    const container = document.getElementById("reportList");
+    container.innerHTML = "";
+
+    // newest first
+    const sorted = [...reportsList].sort((a,b) => (b.id||0) - (a.id||0));
+
+    sorted.forEach(r => {
+        const dateStr = r.reportDate
+            ? new Date(r.reportDate).toLocaleDateString("en-IN", { day:"2-digit", month:"short", year:"numeric" })
+            : "";
+        const item = document.createElement("div");
+        item.className = "report-item";
+        item.innerHTML = `
+            <div class="file-icon"><i class="fa-solid fa-file-lines"></i></div>
+            <div><strong>${r.reportType}</strong><small>${dateStr}</small></div>
+            <button class="download" onclick='downloadReport(${JSON.stringify(r)})'><i class="fa-solid fa-download"></i></button>
+        `;
+        container.appendChild(item);
+    });
+}
+
+async function generateReport(){
+    const type = document.getElementById("reportType").value;
+    const fromDate = document.getElementById("fromDate").value;
+    const toDate = document.getElementById("toDate").value;
+
+    const content =
+        `Report Type: ${type}\n` +
+        `Period: ${fromDate || "N/A"} to ${toDate || "N/A"}\n` +
+        `Total Passengers: 1.42M | Train Trips: 2,486 | On-Time Rate: 96.8%`;
+
+    try {
+        await apiPost("/reports", {
+            reportType: type,
+            reportDate: toDate || new Date().toISOString().slice(0,10),
+            content
+        });
+        alert(type + " report generated successfully!");
+        await loadReports();
+    } catch(err) {
+        console.error(err);
+        alert("Could not save the report. Please check that the backend is running.");
+    }
+}
+
+function downloadReport(report){
+    const data =
+`DELHI METRO RAIL CORPORATION
+${report.reportType} Report
+
+${report.content || ""}
+
+Generated from Delhi Metro Operations Dashboard.`;
+
+    const blob = new Blob([data], {type:"text/plain"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = report.reportType.replaceAll(" ","_") + "_Report.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function logoutUser(event) {
+
+    event.preventDefault();
+
+    const confirmLogout = confirm(
+        "Are you sure you want to logout?"
+    );
+
+    if (confirmLogout) {
+
+        alert(
+            "You have been successfully logged out.\n\nThank you for using Delhi Metro Control Center."
+        );
+
+        localStorage.clear();
+
+        window.location.href = "login.html";
+    }
+}
+
+loadReports();
+</script>
+</body>
+</html>

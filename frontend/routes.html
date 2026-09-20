@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Delhi Metro - Routes</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="routes.css">
+<script src="api-config.js"></script>
+</head>
+
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fa-solid fa-train-subway"></i>
+            </div>
+
+            <div>
+                <h2>Delhi Metro</h2>
+                <span>Rail Corporation</span>
+            </div>
+        </div>
+
+        <nav class="menu">
+
+            <a href="dashboard.html">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="stations.html">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>Stations</span>
+            </a>
+
+            <a href="routes.html" class="active">
+                <i class="fa-solid fa-route"></i>
+                <span>Routes</span>
+            </a>
+
+            <a href="trains.html">
+                <i class="fa-solid fa-train"></i>
+                <span>Trains</span>
+            </a>
+
+            <a href="schedule.html">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span>Schedule</span>
+            </a>
+
+            <a href="planning.html">
+                <i class="fa-solid fa-list-check"></i>
+                <span>Planning</span>
+            </a>
+
+            <a href="reports.html">
+                <i class="fa-solid fa-file-lines"></i>
+                <span>Reports</span>
+            </a>
+
+        </nav>
+        
+<div class="logout-container">
+
+       <a href="#" class="logout-btn" onclick="logoutUser(event)">
+    <i class="fa-solid fa-right-from-bracket"></i>
+    <span>LOGOUT</span>
+</a>
+    </div>
+
+        <div class="sidebar-bottom">
+            <i class="fa-solid fa-circle-check"></i>
+            <div>
+                <strong>System Online</strong>
+                <small>All systems operational</small>
+            </div>
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div>
+                <h1>Metro Routes</h1>
+                <p>Explore metro lines, stations, distances and route connectivity.</p>
+            </div>
+
+            <div class="top-actions">
+
+                <button class="notification">
+                    <i class="fa-regular fa-bell"></i>
+                    <span>3</span>
+                </button>
+
+                <div class="admin">
+                    <div class="admin-avatar">A</div>
+
+                    <div>
+                        <strong>Admin</strong>
+                        <small>Administrator</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= HERO ================= -->
+        <section class="hero">
+
+            <div>
+                <span class="hero-label">
+                    <i class="fa-solid fa-network-wired"></i>
+                    NETWORK MANAGEMENT
+                </span>
+
+                <h2>Delhi Metro Route Network</h2>
+
+                <p>
+                    Monitor metro lines, route connectivity and network
+                    distance from one centralized dashboard.
+                </p>
+            </div>
+
+            <div class="hero-icon">
+                <i class="fa-solid fa-route"></i>
+            </div>
+
+        </section>
+
+
+        <!-- ================= FILTERS ================= -->
+       <!-- ================= ROUTE SEARCH ================= -->
+<section class="filter-card">
+
+    <!-- SELECT LINE -->
+    <div class="filter-group">
+        <label>
+            <i class="fa-solid fa-filter"></i>
+            SELECT LINE
+        </label>
+
+        <select id="lineFilter">
+            <option value="all">All Lines</option>
+            <option value="Blue">Blue Line</option>
+            <option value="Red">Red Line</option>
+            <option value="Yellow">Yellow Line</option>
+            <option value="Green">Green Line</option>
+            <option value="Violet">Violet Line</option>
+        </select>
+    </div>
+
+
+    <!-- START STATION -->
+    <div class="filter-group">
+        <label>
+            <i class="fa-solid fa-location-dot"></i>
+            SELECT STATION
+        </label>
+
+        <select id="startStation">
+            <option value="">SELECT STATION</option>
+        </select>
+    </div>
+
+
+    <!-- DESTINATION -->
+    <div class="filter-group">
+        <label>
+            <i class="fa-solid fa-location-dot"></i>
+            SELECT DESTINATION
+        </label>
+
+        <select id="destinationStation">
+            <option value="">SELECT STATION</option>
+        </select>
+    </div>
+
+
+    <!-- FIND ROUTE -->
+    <button class="find-btn" onclick="findRoute()">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        Find Route
+    </button>
+
+</section>
+
+
+        <!-- ================= STAT CARDS ================= -->
+        <section class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-icon blue">
+                    <i class="fa-solid fa-route"></i>
+                </div>
+
+                <div>
+                    <span>Total Lines</span>
+                    <h3>5</h3>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+
+                <div>
+                    <span>Stations</span>
+                    <h3>40</h3>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon purple">
+                    <i class="fa-solid fa-road"></i>
+                </div>
+
+                <div>
+                    <span>Network Distance</span>
+                    <h3>95.5 km</h3>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon orange">
+                    <i class="fa-solid fa-arrows-turn-to-dots"></i>
+                </div>
+
+                <div>
+                    <span>Interchanges</span>
+                    <h3>12</h3>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= CONTENT GRID ================= -->
+        <section class="content-grid">
+
+            <!-- METRO LINES -->
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <h2>Metro Lines</h2>
+                        <p>Available routes across the network</p>
+                    </div>
+
+                    <i class="fa-solid fa-layer-group"></i>
+
+                </div>
+
+
+                <div id="routeCards">
+
+                    <!-- BLUE -->
+                    <div class="route-card" data-line="Blue">
+
+                        <div class="line-indicator blue-line"></div>
+
+                        <div class="route-info">
+
+                            <div class="route-title">
+                                <h3>Blue Line</h3>
+                                <span>13 Stations</span>
+                            </div>
+
+                            <p>
+                                Dwarka Sector 21
+                                <i class="fa-solid fa-arrow-right"></i>
+                                Noida City Centre
+                            </p>
+
+                            <div class="route-meta">
+                                <span>
+                                    <i class="fa-solid fa-road"></i>
+                                    22.8 km
+                                </span>
+
+                                <span>
+                                    <i class="fa-solid fa-circle-check"></i>
+                                    Operational
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <button onclick="showLine('Blue')">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+
+                    </div>
+
+
+                    <!-- RED -->
+                    <div class="route-card" data-line="Red">
+
+                        <div class="line-indicator red-line"></div>
+
+                        <div class="route-info">
+
+                            <div class="route-title">
+                                <h3>Red Line</h3>
+                                <span>8 Stations</span>
+                            </div>
+
+                            <p>
+                                Rithala
+                                <i class="fa-solid fa-arrow-right"></i>
+                                Shaheed Sthal
+                            </p>
+
+                            <div class="route-meta">
+                                <span>
+                                    <i class="fa-solid fa-road"></i>
+                                    21.6 km
+                                </span>
+
+                                <span>
+                                    <i class="fa-solid fa-circle-check"></i>
+                                    Operational
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <button onclick="showLine('Red')">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+
+                    </div>
+
+
+                    <!-- YELLOW -->
+                    <div class="route-card" data-line="Yellow">
+
+                        <div class="line-indicator yellow-line"></div>
+
+                        <div class="route-info">
+
+                            <div class="route-title">
+                                <h3>Yellow Line</h3>
+                                <span>8 Stations</span>
+                            </div>
+
+                            <p>
+                                Samaypur Badli
+                                <i class="fa-solid fa-arrow-right"></i>
+                                Huda City Centre
+                            </p>
+
+                            <div class="route-meta">
+                                <span>
+                                    <i class="fa-solid fa-road"></i>
+                                    21.2 km
+                                </span>
+
+                                <span>
+                                    <i class="fa-solid fa-circle-check"></i>
+                                    Operational
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <button onclick="showLine('Yellow')">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+
+                    </div>
+
+
+                    <!-- GREEN -->
+                    <div class="route-card" data-line="Green">
+
+                        <div class="line-indicator green-line"></div>
+
+                        <div class="route-info">
+
+                            <div class="route-title">
+                                <h3>Green Line</h3>
+                                <span>6 Stations</span>
+                            </div>
+
+                            <p>
+                                Inderlok
+                                <i class="fa-solid fa-arrow-right"></i>
+                                Brigadier Hoshiar Singh
+                            </p>
+
+                            <div class="route-meta">
+                                <span>
+                                    <i class="fa-solid fa-road"></i>
+                                    16.5 km
+                                </span>
+
+                                <span>
+                                    <i class="fa-solid fa-circle-check"></i>
+                                    Operational
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <button onclick="showLine('Green')">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+
+                    </div>
+
+
+                    <!-- VIOLET -->
+                    <div class="route-card" data-line="Violet">
+
+                        <div class="line-indicator violet-line"></div>
+
+                        <div class="route-info">
+
+                            <div class="route-title">
+                                <h3>Violet Line</h3>
+                                <span>5 Stations</span>
+                            </div>
+
+                            <p>
+                                Kashmere Gate
+                                <i class="fa-solid fa-arrow-right"></i>
+                                Raja Nahar Singh
+                            </p>
+
+                            <div class="route-meta">
+                                <span>
+                                    <i class="fa-solid fa-road"></i>
+                                    13.4 km
+                                </span>
+
+                                <span>
+                                    <i class="fa-solid fa-circle-check"></i>
+                                    Operational
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <button onclick="showLine('Violet')">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- NETWORK MAP -->
+            <div class="panel map-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <h2>Network Map</h2>
+                        <p>Metro route connectivity</p>
+                    </div>
+
+                    <i class="fa-solid fa-map"></i>
+
+                </div>
+
+
+                <div class="metro-map">
+
+                    <div class="map-line blue-map">
+                        <span class="station"></span>
+                        <span class="station"></span>
+                        <span class="station"></span>
+                        <span class="station"></span>
+                    </div>
+
+                    <div class="map-line red-map">
+                        <span class="station"></span>
+                        <span class="station"></span>
+                        <span class="station"></span>
+                    </div>
+
+                    <div class="map-line yellow-map">
+                        <span class="station"></span>
+                        <span class="station"></span>
+                        <span class="station"></span>
+                    </div>
+
+                    <div class="map-line green-map">
+                        <span class="station"></span>
+                        <span class="station"></span>
+                    </div>
+
+                    <div class="map-line violet-map">
+                        <span class="station"></span>
+                        <span class="station"></span>
+                        <span class="station"></span>
+                    </div>
+
+                    <div class="interchange interchange-one">
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+
+                    <div class="interchange interchange-two">
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+
+                </div>
+
+
+                <div class="legend">
+
+                    <span>
+                        <i class="legend-dot blue"></i>
+                        Blue
+                    </span>
+
+                    <span>
+                        <i class="legend-dot red"></i>
+                        Red
+                    </span>
+
+                    <span>
+                        <i class="legend-dot yellow"></i>
+                        Yellow
+                    </span>
+
+                    <span>
+                        <i class="legend-dot green"></i>
+                        Green
+                    </span>
+
+                    <span>
+                        <i class="legend-dot violet"></i>
+                        Violet
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ROUTE TABLE ================= -->
+        <section class="panel table-panel">
+
+            <div class="panel-header">
+
+                <div>
+                    <h2>Route Details</h2>
+                    <p>Detailed information about each metro line</p>
+                </div>
+
+                <button class="export-btn" onclick="exportRoutes()">
+                    <i class="fa-solid fa-download"></i>
+                    Export
+                </button>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>LINE</th>
+                            <th>START STATION</th>
+                            <th>END STATION</th>
+                            <th>STATIONS</th>
+                            <th>DISTANCE</th>
+                            <th>STATUS</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="routeTable">
+
+                        <tr data-line="Blue">
+                            <td>
+                                <span class="table-line blue-bg"></span>
+                                Blue Line
+                            </td>
+                            <td>Dwarka Sector 21</td>
+                            <td>Noida City Centre</td>
+                            <td>13</td>
+                            <td>22.8 km</td>
+                            <td>
+                                <span class="status active">Operational</span>
+                            </td>
+                            <td>
+                                <button class="view-btn"
+                                        onclick="showLine('Blue')">
+                                    View
+                                </button>
+                            </td>
+                        </tr>
+
+
+                        <tr data-line="Red">
+                            <td>
+                                <span class="table-line red-bg"></span>
+                                Red Line
+                            </td>
+                            <td>Rithala</td>
+                            <td>Shaheed Sthal</td>
+                            <td>8</td>
+                            <td>21.6 km</td>
+                            <td>
+                                <span class="status active">Operational</span>
+                            </td>
+                            <td>
+                                <button class="view-btn"
+                                        onclick="showLine('Red')">
+                                    View
+                                </button>
+                            </td>
+                        </tr>
+
+
+                        <tr data-line="Yellow">
+                            <td>
+                                <span class="table-line yellow-bg"></span>
+                                Yellow Line
+                            </td>
+                            <td>Samaypur Badli</td>
+                            <td>Huda City Centre</td>
+                            <td>8</td>
+                            <td>21.2 km</td>
+                            <td>
+                                <span class="status active">Operational</span>
+                            </td>
+                            <td>
+                                <button class="view-btn"
+                                        onclick="showLine('Yellow')">
+                                    View
+                                </button>
+                            </td>
+                        </tr>
+
+
+                        <tr data-line="Green">
+                            <td>
+                                <span class="table-line green-bg"></span>
+                                Green Line
+                            </td>
+                            <td>Inderlok</td>
+                            <td>Brigadier Hoshiar Singh</td>
+                            <td>6</td>
+                            <td>16.5 km</td>
+                            <td>
+                                <span class="status active">Operational</span>
+                            </td>
+                            <td>
+                                <button class="view-btn"
+                                        onclick="showLine('Green')">
+                                    View
+                                </button>
+                            </td>
+                        </tr>
+
+
+                        <tr data-line="Violet">
+                            <td>
+                                <span class="table-line violet-bg"></span>
+                                Violet Line
+                            </td>
+                            <td>Kashmere Gate</td>
+                            <td>Raja Nahar Singh</td>
+                            <td>5</td>
+                            <td>13.4 km</td>
+                            <td>
+                                <span class="status active">Operational</span>
+                            </td>
+                            <td>
+                                <button class="view-btn"
+                                        onclick="showLine('Violet')">
+                                    View
+                                </button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <footer>
+            <p>Delhi Metro Rail Corporation • Route Management System</p>
+            <span>© 2026 DMRC Dashboard</span>
+        </footer>
+
+    </main>
+
+
+    <script src="routes.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Delhi Metro - Stations</title>
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="stations.css">
+
+<script src="api-config.js"></script>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <!-- LOGO -->
+
+    <div class="metro-logo">
+  <div class="brand">
+        <img src="logo.png" alt="Delhi Metro Logo">
+        <div>
+            <h2>Delhi Metro</h2>
+            <span>Metro Rail Corporation</span>
+        </div>
+    </div>
+
+    </div>
+
+
+    <!-- MENU -->
+
+    <nav class="sidebar-menu">
+
+        <a href="dashboard.html">
+
+            <i class="fa-solid fa-house"></i>
+
+            <span>Dashboard</span>
+
+        </a>
+
+
+        <a href="stations.html" class="active">
+
+            <i class="fa-solid fa-location-dot"></i>
+
+            <span>Stations</span>
+
+        </a>
+
+
+        <a href="routes.html">
+
+            <i class="fa-solid fa-route"></i>
+
+            <span>Routes</span>
+
+        </a>
+
+
+        <a href="trains.html">
+
+            <i class="fa-solid fa-train"></i>
+
+            <span>Trains</span>
+
+        </a>
+
+
+        <a href="schedule.html">
+
+            <i class="fa-solid fa-calendar-days"></i>
+
+            <span>Schedule</span>
+
+        </a>
+
+
+        <a href="planning.html">
+            <i class="fa-solid fa-list-check"></i>
+            <span>Planning</span>
+        </a>
+
+        <a href="reports.html">
+
+            <i class="fa-solid fa-file-lines"></i>
+
+            <span>Reports</span>
+
+        </a>
+
+    </nav>
+    
+<div class="logout-container">
+
+        <a href="#" class="logout-btn">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>LOGOUT</span>
+        </a>
+
+    </div>
+
+
+    <!-- SIDEBAR BOTTOM -->
+
+    <div class="sidebar-bottom">
+
+        <div class="moving-line"></div>
+
+        <p>Moving Delhi Forward</p>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN AREA
+===================================================== -->
+
+<main class="main-content">
+
+
+    <!-- =================================================
+         TOP BAR
+    ================================================= -->
+
+    <header class="topbar">
+
+        <div class="topbar-space"></div>
+
+
+        <div class="topbar-right">
+
+            <i class="fa-regular fa-bell notification-icon"></i>
+
+
+            <div class="admin-profile">
+
+                <div class="profile-circle">
+
+                    <i class="fa-solid fa-user"></i>
+
+                </div>
+
+
+                <strong>Admin</strong>
+
+
+                <i class="fa-solid fa-chevron-down"></i>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =================================================
+         PAGE
+    ================================================= -->
+
+    <section class="page-container">
+
+
+        <!-- =================================================
+             HERO
+        ================================================= -->
+
+        <div class="hero">
+
+            <div class="hero-content">
+
+                <h1>
+                    Delhi Metro Stations
+                </h1>
+
+                <p>
+                    Monitor and manage metro stations across the Delhi Metro network.
+                </p>
+
+            </div>
+
+
+            <div class="hero-decoration">
+
+                <i class="fa-solid fa-location-dot"></i>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             FILTER CARD
+        ================================================= -->
+
+        <div class="filter-card">
+
+
+            <!-- SELECT STATION -->
+
+            <div class="filter-item station-filter">
+
+                <label>
+                    SELECT STATION
+                </label>
+
+                <select id="stationSelect">
+
+                    <option value="all">
+                        Select Station
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- LINE -->
+
+            <div class="filter-item">
+
+                <label>
+                    LINE
+                </label>
+
+                <select id="stationLine">
+
+                    <option value="all">
+                        All Lines
+                    </option>
+
+                    <option value="Blue Line">
+                        Blue Line
+                    </option>
+
+                    <option value="Red Line">
+                        Red Line
+                    </option>
+
+                    <option value="Yellow Line">
+                        Yellow Line
+                    </option>
+
+                    <option value="Green Line">
+                        Green Line
+                    </option>
+
+                    <option value="Violet Line">
+                        Violet Line
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="filter-item">
+
+                <label>
+                    STATUS
+                </label>
+
+                <select id="stationStatus">
+
+                    <option value="all">
+                        All Status
+                    </option>
+
+                    <option value="Operational">
+                        Operational
+                    </option>
+
+                    <option value="Maintenance">
+                        Maintenance
+                    </option>
+
+                    <option value="Closed">
+                        Closed
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <button
+                class="search-btn"
+                onclick="searchStations()"
+            >
+
+                <i class="fa-solid fa-filter"></i>
+
+                Search
+
+            </button>
+
+        </div>
+
+
+
+        <!-- =================================================
+             STATION SLIDER
+        ================================================= -->
+
+        <div class="station-section">
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+
+                        <i class="fa-solid fa-location-dot"></i>
+
+                        Station Names
+
+                    </h2>
+
+                    <p>
+                        Scroll horizontally to view all stations
+                    </p>
+
+                </div>
+
+
+                <span class="station-total">
+                    40 Stations
+                </span>
+
+            </div>
+
+
+
+            <!-- REAL SCROLL BAR -->
+
+            <div
+                class="station-slider"
+                id="stationSlider"
+            >
+
+                <!-- JavaScript loads stations -->
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             STATISTICS
+        ================================================= -->
+
+        <div class="stats-grid">
+
+
+            <!-- TOTAL -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon blue">
+
+                    <i class="fa-solid fa-location-dot"></i>
+
+                </div>
+
+                <div>
+
+                    <p>Total Stations</p>
+
+                    <h3 id="totalStations">
+                        40
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <!-- OPERATIONAL -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                </div>
+
+                <div>
+
+                    <p>Operational</p>
+
+                    <h3 id="operationalStations">
+                        35
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <!-- MAINTENANCE -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon orange">
+
+                    <i class="fa-solid fa-screwdriver-wrench"></i>
+
+                </div>
+
+                <div>
+
+                    <p>Maintenance</p>
+
+                    <h3 id="maintenanceStations">
+                        3
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <!-- CLOSED -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon purple">
+
+                    <i class="fa-solid fa-circle-xmark"></i>
+
+                </div>
+
+                <div>
+
+                    <p>Closed</p>
+
+                    <h3 id="closedStations">
+                        2
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             TABLE
+        ================================================= -->
+
+        <div class="table-card">
+
+
+            <div class="table-title">
+
+                <div>
+
+                    <h2>
+                        <i class="fa-solid fa-list"></i>
+                        Station Directory
+                    </h2>
+
+                    <p>
+                        Detailed information about Delhi Metro stations
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                STATION CODE
+                            </th>
+
+                            <th>
+                                STATION NAME
+                            </th>
+
+                            <th>
+                                LINE
+                            </th>
+
+                            <th>
+                                ZONE
+                            </th>
+
+                            <th>
+                                PLATFORMS
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                            <th>
+                                ACTION
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="stationTable">
+
+                        <!-- JavaScript -->
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+</main>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script src="stations.js"></script>
+
+
+</body>
+
+</html>
